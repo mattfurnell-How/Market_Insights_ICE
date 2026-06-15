@@ -26,7 +26,7 @@ def classify_article(title, summary):
 
     topics = []
 
-    if contains_keyword(text, ["theft", "stolen", "security", "lock", "crime"]):
+    if contains_keyword(text, ["theft", "stolen", "security", "disc lock", "bike lock", "crime"]):
         topics.append("Theft & Security")
 
     if contains_keyword(text, ["helmet", "jacket", "boots", "gloves", "gear", "kit", "clothing"]):
@@ -63,6 +63,12 @@ def classify_article(title, summary):
         topics.append("General")
 
     return topics
+
+def topics_from_display(value):
+    if pd.isna(value) or str(value).strip() == "":
+        return ["General"]
+
+    return [topic.strip() for topic in str(value).split(",") if topic.strip()]
 
 # Page setup
 st.set_page_config(
@@ -165,7 +171,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Title
 st.title("TheBikeInsurer Market & Topic Insight Tool")
 
 # Load data
@@ -174,20 +179,28 @@ df = pd.read_csv("motorcycle_articles.csv")
 # Convert published date into usable datetime format
 df["published_date"] = pd.to_datetime(df["published"], errors="coerce", utc=True)
 
-# Clean summaries
-df["clean_summary"] = df["summary"].apply(clean_summary)
+# Use pre-cleaned summaries if rss_collector.py has created them.
+# Otherwise fall back to cleaning in the app.
+if "clean_summary" not in df.columns:
+    df["clean_summary"] = df["summary"].apply(clean_summary)
+else:
+    df["clean_summary"] = df["clean_summary"].fillna("")
 
-# Create multiple article topics
-df["article_topics"] = df.apply(
-    lambda row: classify_article(
-        row.get("title", ""),
-        row.get("clean_summary", "")
-    ),
-    axis=1
-)
+# Use pre-created article topics if rss_collector.py has created them.
+# Otherwise fall back to classifying in the app.
+if "article_topics_display" in df.columns:
+    df["article_topics_display"] = df["article_topics_display"].fillna("General")
+    df["article_topics"] = df["article_topics_display"].apply(topics_from_display)
+else:
+    df["article_topics"] = df.apply(
+        lambda row: classify_article(
+            row.get("title", ""),
+            row.get("clean_summary", "")
+        ),
+        axis=1
+    )
 
-# Create display version for search and rendering
-df["article_topics_display"] = df["article_topics"].apply(lambda topics: ", ".join(topics))
+    df["article_topics_display"] = df["article_topics"].apply(lambda topics: ", ".join(topics))
 
 # Sidebar filters
 st.sidebar.header("Filters")
@@ -215,7 +228,17 @@ article_topic_filter = st.sidebar.multiselect(
     options=all_topics
 )
 
-# Search bar
+hide_racing = st.sidebar.checkbox(
+    "Hide Sports / Racing articles by default",
+    value=True
+)
+
+excluded_racing_sources = [
+    "MotoGP News",
+    "BikeSport News",
+    "Superbike News"
+]
+
 search = st.text_input("Search topics, titles or summaries")
 
 # Apply filters
@@ -255,6 +278,20 @@ if article_topic_filter:
         )
     ]
 
+if hide_racing and not article_topic_filter:
+
+    # Remove racing-tagged articles
+    filtered_df = filtered_df[
+        ~filtered_df["article_topics"].apply(
+            lambda topics: "Racing" in topics
+        )
+    ]
+
+    # Remove racing-heavy sources
+    filtered_df = filtered_df[
+        ~filtered_df["source"].isin(excluded_racing_sources)
+    ]
+
 if search:
     filtered_df = filtered_df[
         filtered_df["title"].str.contains(search, case=False, na=False)
@@ -264,7 +301,6 @@ if search:
         filtered_df["article_topics_display"].str.contains(search, case=False, na=False)
     ]
 
-# Sort newest first
 filtered_df = filtered_df.sort_values("published_date", ascending=False)
 
 # Metrics
