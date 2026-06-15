@@ -209,28 +209,24 @@ else:
 
 # Default source controls
 uk_default_sources = [
-    "Adventure Bike Rider (UK)",
-    "BikeSport News (UK)",
-    "British Motorcyclists Federation (UK)",
-    "Classic Motorcycle (UK)",
-    "Crash British Superbikes (UK)",
-    "Crash RoadRacing (UK)",
-    "Halfords Motorcycle Blog (UK)",
-    "MoreBikes (UK)",
-    "MotoGP News (UK)",
-    "Motorcycle News (MCN)(UK)",
-    "Renchlist (UK)",
-    "Visordown (UK)",
-    "Superbike News (UK)",
-    "Saffy Sprocket (UK)"
+    "Adventure Bike Rider",
+    "BikeSport News",
+    "British Motorcyclists Federation",
+    "Halfords Motorcycle Blog",
+    "MoreBikes",
+    "MotoGP News",
+    "Renchlist",
+    "Visordown",
+    "Superbike News",
+    "Classic Motorcycle",
+    "Saffy Sprocket",
+    "Motorcycle News (MCN)"
 ]
 
 excluded_racing_sources = [
-    "MotoGP News (UK)",
-    "BikeSport News (UK)",
-    "Superbike News (UK)"
-    "Crash British Superbikes (UK)",
-    "Crash RoadRacing (UKS)"
+    "MotoGP News",
+    "BikeSport News",
+    "Superbike News"
 ]
 
 # Sidebar filters
@@ -268,6 +264,39 @@ hide_racing = st.sidebar.checkbox(
     "Hide Sports / Racing articles by default",
     value=True
 )
+
+st.sidebar.markdown("---")
+
+st.sidebar.markdown("""
+### About This Tool
+
+This dashboard aggregates motorcycle-related articles from a range of third-party publishers to help generate inspiration for newsletters, social media campaigns, and rider-focused content ideas.
+
+### Default Behaviour
+- Only UK motorcycle sources are shown by default
+- Sports / racing-heavy content is hidden by default
+- Users can enable broader international content using the filters above
+
+### Important Note
+If **"Show all sources"** is unticked, the dashboard will only display articles from approved UK sources.
+
+If you then manually select a non-UK source in the **"Select Sources"** filter, no articles may appear because that source is being excluded by the UK-only filter.
+
+### Current UK Sources
+- Adventure Bike Rider
+- BikeSport News
+- British Motorcyclists Federation
+- Halfords Motorcycle Blog
+- MoreBikes
+- MotoGP News
+- Renchlist
+- Visordown
+- Superbike News
+- Classic Motorcycle
+- Saffy Sprocket
+- Motorcycle News (MCN)
+""")
+
 
 search = st.text_input("Search topics, titles or summaries")
 
