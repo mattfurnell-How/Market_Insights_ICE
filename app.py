@@ -172,7 +172,7 @@ st.markdown("""
     .stSelectbox div[data-baseweb="select"] span {
         color: #003b5c !important;
     }
-        
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -234,7 +234,7 @@ article_topic_filter = st.sidebar.multiselect(
 )
 
 hide_racing = st.sidebar.checkbox(
-    "Hide Sports / Racing articles by default",
+    "Hide Racing articles by default",
     value=True
 )
 
