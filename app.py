@@ -207,6 +207,26 @@ else:
 
     df["article_topics_display"] = df["article_topics"].apply(lambda topics: ", ".join(topics))
 
+# Default source controls
+uk_default_sources = [
+    "Adventure Bike Rider",
+    "British Motorcyclist Federation",
+    "British Motorcyclists Federation",
+    "Halfords Motorcycle Blog",
+    "More Bikes",
+    "MoreBikes",
+    "Renchlist",
+    "Visordown",
+    "Superbike News",
+    "Classic Motorcycle"
+]
+
+excluded_racing_sources = [
+    "MotoGP News",
+    "BikeSport News",
+    "Superbike News"
+]
+
 # Sidebar filters
 st.sidebar.header("Filters")
 
@@ -219,6 +239,11 @@ recency_filter = st.sidebar.selectbox(
         "Last 90 days",
         "This year"
     ]
+)
+
+show_all_sources = st.sidebar.checkbox(
+    "Show all sources",
+    value=False
 )
 
 source_filter = st.sidebar.multiselect(
@@ -238,16 +263,16 @@ hide_racing = st.sidebar.checkbox(
     value=True
 )
 
-excluded_racing_sources = [
-    "MotoGP News",
-    "BikeSport News",
-    "Superbike News"
-]
-
 search = st.text_input("Search topics, titles or summaries")
 
 # Apply filters
 filtered_df = df.copy()
+
+# By default, only show approved UK sources
+if not show_all_sources:
+    filtered_df = filtered_df[
+        filtered_df["source"].isin(uk_default_sources)
+    ]
 
 now = pd.Timestamp.now(tz="UTC")
 
