@@ -234,7 +234,7 @@ article_topic_filter = st.sidebar.multiselect(
 )
 
 hide_racing = st.sidebar.checkbox(
-    "Hide Racing articles by default",
+    "Hide Sports / Racing articles by default",
     value=True
 )
 
@@ -283,19 +283,20 @@ if article_topic_filter:
         )
     ]
 
-if hide_racing and not article_topic_filter:
+if hide_racing:
 
-    # Remove racing-tagged articles
-    filtered_df = filtered_df[
-        ~filtered_df["article_topics"].apply(
-            lambda topics: "Racing" in topics
-        )
-    ]
-
-    # Remove racing-heavy sources
+    # Always remove racing-heavy sources
     filtered_df = filtered_df[
         ~filtered_df["source"].isin(excluded_racing_sources)
     ]
+
+    # Also remove Racing-tagged articles unless Racing is selected
+    if "Racing" not in article_topic_filter:
+        filtered_df = filtered_df[
+            ~filtered_df["article_topics"].apply(
+                lambda topics: "Racing" in topics
+            )
+        ]
 
 if search:
     filtered_df = filtered_df[
