@@ -209,22 +209,28 @@ else:
 
 # Default source controls
 uk_default_sources = [
-    "Adventure Bike Rider",
-    "British Motorcyclist Federation",
-    "British Motorcyclists Federation",
-    "Halfords Motorcycle Blog",
-    "More Bikes",
-    "MoreBikes",
-    "Renchlist",
-    "Visordown",
-    "Superbike News",
-    "Classic Motorcycle"
+    "Adventure Bike Rider (UK)",
+    "BikeSport News (UK)",
+    "British Motorcyclists Federation (UK)",
+    "Classic Motorcycle (UK)",
+    "Crash British Superbikes (UK)",
+    "Crash RoadRacing (UK)",
+    "Halfords Motorcycle Blog (UK)",
+    "MoreBikes (UK)",
+    "MotoGP News (UK)",
+    "Motorcycle News (MCN)(UK)",
+    "Renchlist (UK)",
+    "Visordown (UK)",
+    "Superbike News (UK)",
+    "Saffy Sprocket (UK)"
 ]
 
 excluded_racing_sources = [
-    "MotoGP News",
-    "BikeSport News",
-    "Superbike News"
+    "MotoGP News (UK)",
+    "BikeSport News (UK)",
+    "Superbike News (UK)"
+    "Crash British Superbikes (UK)",
+    "Crash RoadRacing (UKS)"
 ]
 
 # Sidebar filters
