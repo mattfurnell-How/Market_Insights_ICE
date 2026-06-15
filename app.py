@@ -242,7 +242,7 @@ recency_filter = st.sidebar.selectbox(
 )
 
 show_all_sources = st.sidebar.checkbox(
-    "Show all sources",
+    "Show all sources (outside of UK sources)",
     value=False
 )
 
