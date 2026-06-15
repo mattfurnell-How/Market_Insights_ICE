@@ -168,6 +168,9 @@ st.markdown("""
         border: 2px solid #86d93f !important;
         box-shadow: 0 0 0 1px #86d93f !important;
     }
+
+    .stSelectbox div[data-baseweb="select"] span {
+        color: #003b5c !important;
 </style>
 """, unsafe_allow_html=True)
 
