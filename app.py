@@ -171,6 +171,8 @@ st.markdown("""
 
     .stSelectbox div[data-baseweb="select"] span {
         color: #003b5c !important;
+    }
+        
 </style>
 """, unsafe_allow_html=True)
 
