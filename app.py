@@ -220,7 +220,8 @@ uk_default_sources = [
     "Superbike News",
     "Classic Motorcycle",
     "Saffy Sprocket",
-    "Motorcycle News (MCN)"
+    "Motorcycle News (MCN)",
+    "Fast Bikes Mag"
 ]
 
 excluded_racing_sources = [
@@ -295,6 +296,7 @@ If you then manually select a non-UK source in the **"Select Sources"** filter, 
 - Classic Motorcycle
 - Saffy Sprocket
 - Motorcycle News (MCN)
+- Fast Bikes Mag
 """)
 
 
